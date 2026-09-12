@@ -5,6 +5,7 @@ import json
 import httpx
 
 GAMMA_API = "https://gamma-api.polymarket.com/markets"
+CLOB_API = "https://clob.polymarket.com"
 
 
 def to_float(value, default=0.0):
@@ -52,6 +53,7 @@ def summarize(market):
         "liquidity": to_float(market.get("liquidityNum") or market.get("liquidity")),
         "end_date": (market.get("endDate") or "")[:10],
         "slug": market.get("slug") or "",
+        "token_ids": parse_json_field(market.get("clobTokenIds")),
     }
 
 
@@ -60,3 +62,18 @@ def load_markets(limit=200):
     markets = [summarize(m) for m in fetch_markets(limit)]
     markets.sort(key=lambda m: m["volume"], reverse=True)
     return markets
+
+def fetch_price_history(token_id, interval="1m", fidelity=60):
+    """Return [{'t': unix_seconds, 'p': price}, ...] for one CLOB outcome token.
+
+    `interval` is a window keyword (1d / 1w / 1m / max) and `fidelity` is the
+    resolution in minutes, so 1m + 60 gives roughly a month of hourly points.
+    """
+    params = {"market": token_id, "interval": interval, "fidelity": fidelity}
+    response = httpx.get(f"{CLOB_API}/prices-history", params=params, timeout=30)
+    response.raise_for_status()
+
+    payload = response.json()
+    if isinstance(payload, dict):
+        return payload.get("history") or []
+    return payload if isinstance(payload, list) else []
