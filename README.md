@@ -2,7 +2,7 @@
 
 A dark, minimal analytics terminal for [Polymarket](https://polymarket.com)
 prediction markets. Built with Python, Streamlit and Plotly on top of
-Polymarket's public APIs — no API key required.
+Polymarket's public APIs - no API key required.
 
 ![Python](https://img.shields.io/badge/python-3.13+-3987e5?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/streamlit-app-e66767?logo=streamlit&logoColor=white)
@@ -16,13 +16,13 @@ Prediction markets price the crowd's belief about the future: a contract
 trading at $0.73 means the market puts the event at roughly 73%. This terminal
 reads those prices live and turns them into something you can actually scan.
 
-- **Overview** — KPI tiles, volume leaders, and a conviction chart showing how
+- **Overview** - KPI tiles, volume leaders, and a conviction chart showing how
   far each market sits from a 50/50 coin flip.
-- **Market landscape** — an interactive 3D explorer plotting volume, liquidity,
+- **Market landscape** - an interactive 3D explorer plotting volume, liquidity,
   time to resolution and implied probability at once.
-- **Market detail** — one month of hourly price history per market, with 24h and
+- **Market detail** - one month of hourly price history per market, with 24h and
   7d moves, period high/low, and a range selector.
-- **Filters** — search, minimum volume and a probability band that strips out
+- **Filters** - search, minimum volume and a probability band that strips out
   longshot contracts, applied to every view at once.
 
 ![Market landscape](docs/landscape.png)
@@ -43,7 +43,7 @@ reads those prices live and turns them into something you can actually scan.
 The code is layered so each module only knows about the one below it.
 
 ```
-polymarket.py              API client — pure Python, no Streamlit imports
+polymarket.py              API client - pure Python, no Streamlit imports
 data.py                    Cached data-access layer (5-minute TTL)
 theme.py                   Design tokens, CSS and shared chart chrome
 app.py                     Overview page
@@ -82,14 +82,14 @@ The charts follow a few deliberate rules rather than library defaults:
   more means darker; blue/red around a neutral midpoint where 50% is a
   meaningful zero.
 - **3D for exploration only.** Perspective makes precise comparison unreliable,
-  so the 3D view is for spotting shape and outliers — every exact value is
+  so the 3D view is for spotting shape and outliers - every exact value is
   readable from the 2D charts and tables.
 - **Nothing is gated behind a hover.** Each chart has a table twin, so values
   stay reachable by keyboard and screen reader.
 - **Neutral deltas.** A rising probability is not inherently good or bad, so the
   sign carries direction and color stays out of it.
 
-The palette was checked for colorblind separation — the blue/red pair measures
+The palette was checked for colorblind separation - the blue/red pair measures
 ΔE 19.2 under protanopia against a threshold of 8.
 
 ## Roadmap
@@ -104,4 +104,4 @@ The palette was checked for colorblind separation — the blue/red pair measures
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
